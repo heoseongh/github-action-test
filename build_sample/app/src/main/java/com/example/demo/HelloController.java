@@ -10,4 +10,11 @@ public class HelloController {
     public String hello () {
         return "hello";
     }
+
+    @GetMapping("/kimminseon")
+    public String minsunny () {
+        return "<h1>김민선 = 쿼카</h1>" +
+                "<img src='https://cdn.newspenguin.com/news/photo/201912/877_1419_234.jpg'>"
+                ;
+    }
 }

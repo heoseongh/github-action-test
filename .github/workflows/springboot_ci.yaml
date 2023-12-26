@@ -1,17 +1,23 @@
-name: CI (Java DockerHub Build)
+name: CI (Build Java Project & Push DockerHub)
 on:
   push:
     branches: 'main'
     tags: 'v*'
+
+env:
+  project_name: 'app'
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    - name: Move Java Sample code
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Move Java code
       run: |
         mv build_sample/app/* ./
-    - uses: actions/setup-java@v3
+    - name: Setup Java Build Environment
+      uses: actions/setup-java@v3
       with:
         java-version: '17'
         distribution: 'temurin'
@@ -23,8 +29,14 @@ jobs:
         gradle-version: '8.3'
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Print Build Directory
-      run: ls ./build/libs/
+    - name: Docker meta
+      id: docker_meta
+      uses: crazy-max/ghaction-docker-meta@v1
+      with:
+        images: ${{ secrets.DOCKERHUB_USERNAME }}/$project_name
+        tag-semver: |
+          {{version}}
+          {{major}}.{{minor}}
     - name: DockerHub Login
       uses: docker/login-action@v1
       with:
@@ -36,4 +48,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ secrets.DOCKERHUB_USERNAME }}/app
+          tags: ${{ steps.docker_meta.outputs.tags }}

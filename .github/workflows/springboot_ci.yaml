@@ -7,7 +7,7 @@ jobs:
     - uses: actions/checkout@v3
     - name: Move Java Sample code
       run: |
-        mv build_sample/java/* ./
+        mv build_sample/app/* ./
     - uses: actions/setup-java@v3
       with:
         java-version: '17'

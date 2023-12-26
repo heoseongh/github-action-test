@@ -1,5 +1,7 @@
 name: CI (Java DockerHub Build)
-on: workflow_dispatch
+on:
+  push:
+    branches: 'main'  
 jobs:
   build:
     runs-on: ubuntu-latest

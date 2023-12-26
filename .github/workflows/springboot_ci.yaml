@@ -1,7 +1,8 @@
 name: CI (Java DockerHub Build)
 on:
   push:
-    branches: 'main'  
+    branches: 'main'
+    tags: 'v*'
 jobs:
   build:
     runs-on: ubuntu-latest

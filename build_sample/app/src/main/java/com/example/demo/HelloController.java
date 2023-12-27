@@ -17,4 +17,9 @@ public class HelloController {
                 "<img src='https://cdn.newspenguin.com/news/photo/201912/877_1419_234.jpg'>"
                 ;
     }
+
+    @GetMapping("/hyeyeong")
+    public String sorryHyeyeong () {
+      return "<h1>미안해 혜영아!!! ㅜㅜ</h1>";
+    }
 }

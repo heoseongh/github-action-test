@@ -37,4 +37,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ github.actor_id }}/${{ vars.PROJECT_NAME }}:${{ github.sha }}
+          tags: ${{ github.actor }}/${{ vars.PROJECT_NAME }}:${{ github.sha }}

@@ -73,4 +73,5 @@ jobs:
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
           sudo docker rm -f ${{ vars.PROJECT_NAME }}
+          sudo docker rmi $(docker images |grep ${{ env.DOCKER_IMAGE_NAME }} |awk '{print $3}')
           sudo docker run --name ${{ vars.PROJECT_NAME }} -d -p 80:8080 ${{ env.DOCKER_IMAGE_NAME }}:latest

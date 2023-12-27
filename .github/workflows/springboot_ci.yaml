@@ -7,6 +7,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+        DOCKER_IMAGE_NAME: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.PROJECT_NAME }}
     steps:
     - name: Checkout
       uses: actions/checkout@v3
@@ -28,15 +30,27 @@ jobs:
         gradle-version: '8.3'
     - name: Build with Gradle
       run: ./gradlew build
+    # 도커 메타
+    - name: Docker meta
+      id: docker_meta
+      uses: crazy-max/ghaction-docker-meta@v1
+      with:
+        images: ${{ env.DOCKER_IMAGE_NAME }}
+        tag-semver: |
+          {{version}}
+          {{major}}.{{minor}}
+    # 도커 허브 로그인
     - name: DockerHub Login
       uses: docker/login-action@v1
       with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+    # 도커이미지 빌드하고 허브에 업로드
     - name: Container Build and Push to DockerHub
       uses: docker/build-push-action@v2
       with:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ github.actor }}/${{ vars.PROJECT_NAME }}:${{ env.TAG_VERSION }}
+          tags: ${{ steps.docker_meta.outputs.tags }}
+          labels: ${{ steps.docker_meta.outputs.labels }}

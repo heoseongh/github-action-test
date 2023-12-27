@@ -4,9 +4,6 @@ on:
     branches: 'main'
     tags: 'v*'
 
-env:
-  project_name: 'app'
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -29,14 +26,6 @@ jobs:
         gradle-version: '8.3'
     - name: Build with Gradle
       run: ./gradlew build
-    - name: Docker meta
-      id: docker_meta
-      uses: crazy-max/ghaction-docker-meta@v1
-      with:
-        images: ${{ secrets.DOCKERHUB_USERNAME }}/${{ vars.PROJECT_NAME }}
-        tag-semver: |
-          {{version}}
-          {{major}}.{{minor}}
     - name: DockerHub Login
       uses: docker/login-action@v1
       with:
@@ -48,4 +37,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
+          tags: ${{ github.actor_id }}/${{ vars.PROJECT_NAME }}:${{ github.sha }}

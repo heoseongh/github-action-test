@@ -10,6 +10,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v3
+    - name: Get Tag Version
+      run: echo "TAG_VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
     - name: Move Java code
       run: |
         mv build_sample/app/* ./
@@ -37,4 +39,4 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ github.actor }}/${{ vars.PROJECT_NAME }}:${{ github.sha }}
+          tags: ${{ github.actor }}/${{ vars.PROJECT_NAME }}:${{ env.TAG_VERSION }}

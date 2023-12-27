@@ -54,10 +54,10 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ steps.docker_meta.outputs.tags }}
-          labels: ${{ steps.docker_meta.outputs.labels }}
-    - name: Get Tag Name
-      run: echo "TAG_NAME=${{steps.docker_meta.outputs.labels}}" >> $GITHUB_ENV
+          #tags: ${{ steps.docker_meta.outputs.tags }}
+          #labels: ${{ steps.docker_meta.outputs.labels }}
+    # - name: Get Tag Name
+    #   run: echo "TAG_NAME=${{steps.docker_meta.outputs.labels}}" >> $GITHUB_ENV
   # EC2에 배포
   deploy:
     needs: build

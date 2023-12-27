@@ -66,4 +66,4 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
-          docker run --name app -d -p 80:8080 ${{ env.DOCKER_IMAGE_NAME }}:latest
+          sudo docker run --name app -d -p 80:8080 ${{ env.DOCKER_IMAGE_NAME }}:latest

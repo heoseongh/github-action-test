@@ -56,6 +56,7 @@ jobs:
         key: ${{ secrets.REMOTE_SSH_KEY }}
         port: ${{ secrets.REMOTE_SSH_PORT }}
         script: |
-          sudo docker rm -f $(docker ps |grep ${{ env.DOCKER_IMAGE_NAME }} |awk '{print $1}')
-          sudo docker rmi -f $(docker images |grep ${{ env.DOCKER_IMAGE_NAME }} |awk '{print $3}')
-          sudo docker run --name ${{ vars.PROJECT_NAME }} -d -p 80:8080 ${{ env.DOCKER_IMAGE_NAME }}:latest
+          alias docker='sudo docker'
+          docker rm -f $(docker ps |grep ${{ env.DOCKER_IMAGE_NAME }} |awk '{print $1}')
+          docker rmi -f $(docker images |grep ${{ env.DOCKER_IMAGE_NAME }} |awk '{print $3}')
+          docker run --name ${{ vars.PROJECT_NAME }} -d -p 80:8080 ${{ env.DOCKER_IMAGE_NAME }}:latest

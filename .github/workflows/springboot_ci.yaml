@@ -42,7 +42,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: ${{ github.sha }}
+          tags: ${{ env.DOCKER_IMAGE_NAME }}
   # EC2에 배포
   deploy:
     needs: build
